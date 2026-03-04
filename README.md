@@ -1,6 +1,6 @@
 # 💬 TalkTuMe - Real-Time Fullstack Chat Application
 
-![TalkTuMe Demo](./frontend/public/screenshot-for-readme.png)
+
 
 A modern, high-performance real-time chat application built with the MERN stack (MongoDB, Express, React, Node.js) and Socket.io. TalkTuMe provides a seamless messaging experience with real-time updates, user presence tracking, and a beautiful UI.
 
