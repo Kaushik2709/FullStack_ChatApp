@@ -20,12 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
     credentials: true,
   })
 );
-app.use("/api/health",(req,res)=>{
-  res.status(200).json({message:"OK"})
+app.use("/api/health", (req, res) => {
+  res.status(200).json({ message: "OK" })
 })
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
