@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import path from "path";
+import fs from "fs";
 
 import { connectDB } from "./lib/db.js";
 import dns from 'dns'
@@ -16,11 +17,16 @@ dotenv.config();
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
+// Check if we are running from root or backend folder
+const distPath = path.join(__dirname, "frontend", "dist");
+const distPathFallback = path.join(__dirname, "..", "frontend", "dist");
+const actualDistPath = fs.existsSync(distPath) ? distPath : distPathFallback;
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL].filter(Boolean),
     credentials: true,
   })
 );
@@ -31,10 +37,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.use(express.static(actualDistPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    res.sendFile(path.join(actualDistPath, "index.html"));
   });
 }
 dns.setServers(['8.8.8.8'])
