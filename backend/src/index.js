@@ -24,7 +24,9 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("api/health",(req,res)=>{
+  res.send("OK")
+})
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
